@@ -1,5 +1,5 @@
 # goexcelwin
-Go wrapper for LibXL excel library (Win64 only)
+Go wrapper (Win64 only) for commercial [LibXL](http://libxl.com/) excel library.
 
 ## Installation
 
