@@ -1,9 +1,7 @@
 package helper
 
 import (
-	"fmt"
 	"log"
-	"runtime"
 	"time"
 	"unicode/utf16"
 	"unsafe"
