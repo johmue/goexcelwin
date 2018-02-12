@@ -4,7 +4,7 @@ Go wrapper for LibXL excel library (Win64 only)
 ## Installation
 
 ```shell
-got get github.com/johmue/goexcelwin
+go get github.com/johmue/goexcelwin
 ```
 
 ## Simple example
