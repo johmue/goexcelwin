@@ -14,20 +14,20 @@ type Book struct {
 }
 
 const (
-	Picturetype_Dib  = 3
-	Picturetype_Emf  = 4
-	Picturetype_Jpeg = 1
-	Picturetype_Pict = 5
-	Picturetype_Png  = 0
-	Picturetype_Tiff = 6
-	Picturetype_Wmf  = 2
+	PICTURETYPE_DIB  = 3
+	PICTURETYPE_EMF  = 4
+	PICTURETYPE_JPEG = 1
+	PICTURETYPE_PICT = 5
+	PICTURETYPE_PNG  = 0
+	PICTURETYPE_TIFF = 6
+	PICTURETYPE_WMF  = 2
 
-	Scope_Undefined = -2
-	Scope_Workbook  = -1
+	SCOPE_UNDEFINED = -2
+	SCOPE_WORKBOOK  = -1
 
-	Sheettype_Chart   = 1
-	Sheettype_Cheet   = 0
-	Sheettype_Unknown = 2
+	SHEETTYPE_CHART   = 1
+	SHEETTYPE_CHEET   = 0
+	SHEETTYPE_UNKNOWN = 2
 )
 
 func (xb *Book) GetSelf() uintptr {
