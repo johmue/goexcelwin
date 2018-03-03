@@ -124,9 +124,15 @@ func (xb *Book) SaveRaw() string {
 }
 
 // SheetHandle xlBookAddSheetW(BookHandle handle, const wchar_t* name, SheetHandle initSheet);
-func (xb *Book) AddSheet(name string) *Sheet {
-	tmp, _, _ := xb.lib.NewProc("xlBookAddSheetW").
-		Call(xb.self, S(name), 0)
+func (xb *Book) AddSheet(name string, initSheet *Sheet) *Sheet {
+	tmp := uintptr(0)
+	if nil == initSheet {
+		tmp, _, _ = xb.lib.NewProc("xlBookAddSheetW").
+			Call(xb.self, S(name), 0)
+	} else {
+		tmp, _, _ = xb.lib.NewProc("xlBookAddSheetW").
+			Call(xb.self, S(name), initSheet.self)
+	}
 
 	if tmp == uintptr(0) {
 		log.Fatal("failed to initialize Sheet in Book.AddSheet()")
@@ -139,9 +145,16 @@ func (xb *Book) AddSheet(name string) *Sheet {
 }
 
 // SheetHandle xlBookInsertSheetW(BookHandle handle, int index, const wchar_t* name, SheetHandle initSheet);
-func (xb *Book) InsertSheet(index int, name string) *Sheet {
-	tmp, _, _ := xb.lib.NewProc("xlBookInsertSheetW").
-		Call(xb.self, I(index), S(name), 0)
+func (xb *Book) InsertSheet(index int, name string, initSheet *Sheet) *Sheet {
+	tmp := uintptr(0)
+
+	if nil == initSheet {
+		tmp, _, _ = xb.lib.NewProc("xlBookInsertSheetW").
+			Call(xb.self, I(index), S(name), 0)
+	} else {
+		tmp, _, _ = xb.lib.NewProc("xlBookInsertSheetW").
+			Call(xb.self, I(index), S(name), initSheet.self)
+	}
 
 	if tmp == uintptr(0) {
 		log.Fatal("failed to initialize Sheet in Book.InsertSheet()")
