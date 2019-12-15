@@ -263,6 +263,7 @@ func (xs *Sheet) Write(row int, col int, value interface{}, format *Format) int 
 
 // double xlSheetReadNumW(SheetHandle handle, int row, int col, FormatHandle* format);
 func (xs *Sheet) ReadNum(row int, col int) (float64, *Format) {
+	log.Print("Sheet::ReadNum() uses syscall.LazyDLL.NewProc().Call() which does not support float values\n")
 	var fo uintptr
 	tmp, _, _ := xs.xb.lib.NewProc("xlSheetReadNumW").
 		Call(xs.self, I(row), I(col), uintptr(unsafe.Pointer(&fo)))
