@@ -1,7 +1,7 @@
 package model
 
 import (
-    "github.com/johmue/goexcelwin/helper"
+	"github.com/johmue/goexcelwin/helper"
 	"math"
 )
 

@@ -1,7 +1,7 @@
 package model
 
 import (
-    "github.com/johmue/goexcelwin/helper"
+	"github.com/johmue/goexcelwin/helper"
 	"log"
 	"unsafe"
 )
@@ -185,6 +185,81 @@ func (xs *Sheet) WriteStr(row int, col int, value string, format *Format) int {
 	return int(tmp)
 }
 
+// generic write function handling multiple types at once
+func (xs *Sheet) Write(row int, col int, value interface{}, format *Format) int {
+	switch value.(type) {
+	case nil:
+		return xs.WriteBlank(row, col, format)
+	case string:
+		if cVal, ok := value.(string); ok {
+			if cVal == "" {
+				return xs.WriteBlank(row, col, format)
+			}
+			return xs.WriteStr(row, col, cVal, format)
+		}
+	case int:
+		if cVal, ok := value.(int); ok {
+			return xs.WriteNum(row, col, float64(cVal), format)
+		}
+	case int8:
+		if cVal, ok := value.(int8); ok {
+			return xs.WriteNum(row, col, float64(cVal), format)
+		}
+	case int16:
+		if cVal, ok := value.(int16); ok {
+			return xs.WriteNum(row, col, float64(cVal), format)
+		}
+	case int32:
+		if cVal, ok := value.(int32); ok {
+			return xs.WriteNum(row, col, float64(cVal), format)
+		}
+	case int64:
+		if cVal, ok := value.(int64); ok {
+			return xs.WriteNum(row, col, float64(cVal), format)
+		}
+	case uint:
+		if cVal, ok := value.(uint); ok {
+			return xs.WriteNum(row, col, float64(cVal), format)
+		}
+	// byte == uint8
+	case byte:
+		if cVal, ok := value.(byte); ok {
+			return xs.WriteStr(row, col, string(cVal), format)
+		}
+	case uint16:
+		if cVal, ok := value.(uint16); ok {
+			return xs.WriteNum(row, col, float64(cVal), format)
+		}
+	case uint32:
+		if cVal, ok := value.(uint32); ok {
+			return xs.WriteNum(row, col, float64(cVal), format)
+		}
+	case uint64:
+		if cVal, ok := value.(uint64); ok {
+			return xs.WriteNum(row, col, float64(cVal), format)
+		}
+	case bool:
+		if cVal, ok := value.(bool); ok {
+			iVal := 0
+			if cVal {
+				iVal = 1
+			}
+			return xs.WriteBool(row, col, iVal, format)
+		}
+	case float32:
+		if cVal, ok := value.(float32); ok {
+			return xs.WriteNum(row, col, float64(cVal), format)
+		}
+	case float64:
+		if cVal, ok := value.(float64); ok {
+			return xs.WriteNum(row, col, cVal, format)
+		}
+	}
+
+	log.Printf("Called Sheet::Write() with an unsupported type %#v", value)
+	return 0
+}
+
 // double xlSheetReadNumW(SheetHandle handle, int row, int col, FormatHandle* format);
 func (xs *Sheet) ReadNum(row int, col int) (float64, *Format) {
 	var fo uintptr
@@ -273,15 +348,90 @@ func (xs *Sheet) ReadFormula(row int, col int, format *Format) string {
 	return helper.UIntPtrToString(tmp)
 }
 
+// generic writeFormula function handling multiple types at once
+func (xs *Sheet) WriteFormula(row int, col int, expr string, value interface{}, format *Format) int {
+	switch value.(type) {
+	case nil:
+		return xs.WriteFormulaNil(row, col, expr, format)
+	case string:
+		if cVal, ok := value.(string); ok {
+			if cVal == "" {
+				return xs.WriteFormulaNil(row, col, expr, format)
+			}
+			return xs.WriteFormulaStr(row, col, expr, cVal, format)
+		}
+	case int:
+		if cVal, ok := value.(int); ok {
+			return xs.WriteFormulaNum(row, col, expr, float64(cVal), format)
+		}
+	case int8:
+		if cVal, ok := value.(int8); ok {
+			return xs.WriteFormulaNum(row, col, expr, float64(cVal), format)
+		}
+	case int16:
+		if cVal, ok := value.(int16); ok {
+			return xs.WriteFormulaNum(row, col, expr, float64(cVal), format)
+		}
+	case int32:
+		if cVal, ok := value.(int32); ok {
+			return xs.WriteFormulaNum(row, col, expr, float64(cVal), format)
+		}
+	case int64:
+		if cVal, ok := value.(int64); ok {
+			return xs.WriteFormulaNum(row, col, expr, float64(cVal), format)
+		}
+	case uint:
+		if cVal, ok := value.(uint); ok {
+			return xs.WriteFormulaNum(row, col, expr, float64(cVal), format)
+		}
+	// byte == uint8
+	case byte:
+		if cVal, ok := value.(byte); ok {
+			return xs.WriteFormulaStr(row, col, expr, string(cVal), format)
+		}
+	case uint16:
+		if cVal, ok := value.(uint16); ok {
+			return xs.WriteFormulaNum(row, col, expr, float64(cVal), format)
+		}
+	case uint32:
+		if cVal, ok := value.(uint32); ok {
+			return xs.WriteFormulaNum(row, col, expr, float64(cVal), format)
+		}
+	case uint64:
+		if cVal, ok := value.(uint64); ok {
+			return xs.WriteFormulaNum(row, col, expr, float64(cVal), format)
+		}
+	case bool:
+		if cVal, ok := value.(bool); ok {
+			iVal := 0
+			if cVal {
+				iVal = 1
+			}
+			return xs.WriteFormulaBool(row, col, expr, iVal, format)
+		}
+	case float32:
+		if cVal, ok := value.(float32); ok {
+			return xs.WriteFormulaNum(row, col, expr, float64(cVal), format)
+		}
+	case float64:
+		if cVal, ok := value.(float64); ok {
+			return xs.WriteFormulaNum(row, col, expr, cVal, format)
+		}
+	}
+
+	log.Printf("Called Sheet::WriteFormula() with an unsupported type %#v", value)
+	return 0
+}
+
 // int xlSheetWriteFormulaW(SheetHandle handle, int row, int col, const wchar_t* value, FormatHandle format);
-func (xs *Sheet) WriteFormula(row int, col int, value string, format *Format) int {
+func (xs *Sheet) WriteFormulaNil(row int, col int, expr string, format *Format) int {
 	fo := uintptr(0)
 	if nil != format {
 		fo = format.self
 	}
 
 	tmp, _, _ := xs.xb.lib.NewProc("xlSheetWriteFormulaW").
-		Call(xs.self, I(row), I(col), S(value), fo)
+		Call(xs.self, I(row), I(col), S(expr), fo)
 
 	return int(tmp)
 }
