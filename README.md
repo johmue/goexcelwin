@@ -28,7 +28,7 @@ func main() {
 	xb.SetLocale("UTF-8")
 	xb.SetRgbMode(1)
 
-	xs := xb.AddSheet("Table1")
+	xs := xb.AddSheet("Table1", nil)
 
 	xs.WriteStr(1, 1, "Hello!", nil)
 	xs.WriteNum(1, 2, 100, nil)
