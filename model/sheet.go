@@ -209,6 +209,7 @@ func (xs *Sheet) Write(row int, col int, value interface{}, format *Format) int 
 		if cVal, ok := value.(int16); ok {
 			return xs.WriteNum(row, col, float64(cVal), format)
 		}
+	// int32 == rune
 	case int32:
 		if cVal, ok := value.(int32); ok {
 			return xs.WriteNum(row, col, float64(cVal), format)
@@ -372,6 +373,7 @@ func (xs *Sheet) WriteFormula(row int, col int, expr string, value interface{}, 
 		if cVal, ok := value.(int16); ok {
 			return xs.WriteFormulaNum(row, col, expr, float64(cVal), format)
 		}
+	// int32 == rune
 	case int32:
 		if cVal, ok := value.(int32); ok {
 			return xs.WriteFormulaNum(row, col, expr, float64(cVal), format)
