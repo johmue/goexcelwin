@@ -479,3 +479,17 @@ func (xb *Book) Release() {
 	xb.lib.NewProc("xlBookReleaseW").
 		Call(xb.self)
 }
+
+// int xlBookLoadInfo(BookHandle handle, const wchar_t* filename)
+func (xb *Book) LoadInfo(filename string) int {
+	tmp, _, _ := xb.lib.NewProc("xlBookLoadInfoW").
+		Call(xb.self, S(filename))
+	return int(tmp)
+}
+
+// const wchar_t* xlBookGetSheetName(BookHandle handle, int index)
+func (xb *Book) GetSheetName(index int) string {
+	tmp, _, _ := xb.lib.NewProc("xlBookGetSheetNameW").
+		Call(xb.self, I(index))
+	return helper.UIntPtrToString(tmp)
+}

@@ -771,6 +771,20 @@ func (xs *Sheet) InsertRow(rowFirst int, rowLast int) int {
 	return int(tmp)
 }
 
+//int xlSheetInsertColAndKeepRanges(SheetHandle handle, int colFirst, int colLast)
+func (xs *Sheet) InsertColAndKeepRanges(colFirst int, colLast int) int {
+	tmp, _, _ := xs.xb.lib.NewProc("xlSheetInsertColAndKeepRangesW").
+		Call(xs.self, I(colFirst), I(colLast))
+	return int(tmp)
+}
+
+// int xlSheetInsertRowAndKeepRanges(SheetHandle handle, int rowFirst, int rowLast)
+func (xs *Sheet) InsertRowAndKeepRanges(rowFirst int, rowLast int) int {
+	tmp, _, _ := xs.xb.lib.NewProc("xlSheetInsertRowAndKeepRangesW").
+		Call(xs.self, I(rowFirst), I(rowLast))
+	return int(tmp)
+}
+
 // int xlSheetRemoveColW(SheetHandle handle, int colFirst, int colLast);
 func (xs *Sheet) RemoveCol(colFirst int, colLast int) int {
 	tmp, _, _ := xs.xb.lib.NewProc("xlSheetRemoveColW").
@@ -781,6 +795,20 @@ func (xs *Sheet) RemoveCol(colFirst int, colLast int) int {
 // int xlSheetRemoveRowW(SheetHandle handle, int rowFirst, int rowLast);
 func (xs *Sheet) RemoveRow(rowFirst int, rowLast int) int {
 	tmp, _, _ := xs.xb.lib.NewProc("xlSheetRemoveRowW").
+		Call(xs.self, I(rowFirst), I(rowLast))
+	return int(tmp)
+}
+
+// int xlSheetRemoveColAndKeepRanges(SheetHandle handle, int colFirst, int colLast)
+func (xs *Sheet) RemoveColAndKeepRanges(colFirst int, colLast int) int {
+	tmp, _, _ := xs.xb.lib.NewProc("xlSheetRemoveColAndKeepRangesW").
+		Call(xs.self, I(colFirst), I(colLast))
+	return int(tmp)
+}
+
+// int xlSheetRemoveRowAndKeepRanges(SheetHandle handle, int rowFirst, int rowLast)
+func (xs *Sheet) RemoveRowAndKeepRanges(rowFirst int, rowLast int) int {
+	tmp, _, _ := xs.xb.lib.NewProc("xlSheetRemoveRowAndKeepRangesW").
 		Call(xs.self, I(rowFirst), I(rowLast))
 	return int(tmp)
 }
@@ -1031,6 +1059,20 @@ func (xs *Sheet) MarginBottom() float64 {
 func (xs *Sheet) SetMarginBottom(margin float64) {
 	xs.xb.lib.NewProc("xlSheetSetMarginBottomW").
 		Call(xs.self, F(margin))
+}
+
+// int xlSheetColWidthPx(SheetHandle handle, int col)
+func (xs *Sheet) ColWidthPx(col int) int {
+	tmp, _, _ := xs.xb.lib.NewProc("xlSheetColWidthPxW").
+		Call(xs.self, I(col))
+	return int(tmp)
+}
+
+// int xlSheetRowHeightPx(SheetHandle handle, int row)
+func (xs *Sheet) RowHeightPx(row int) int {
+	tmp, _, _ := xs.xb.lib.NewProc("xlSheetRowHeightPxW").
+		Call(xs.self, I(row))
+	return int(tmp)
 }
 
 // int xlSheetPrintRowColW(SheetHandle handle);
