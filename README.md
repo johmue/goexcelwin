@@ -4,7 +4,7 @@ Go wrapper (Win64 only) for commercial [LibXL](http://libxl.com/) excel library.
 ## Installation
 
 ```shell
-go get github.com/johmue/goexcelwin
+go get -u github.com/johmue/goexcelwin
 ```
 
 Copy the `libxl.dll` for Win64 into a directory `./bin` inside your project.
